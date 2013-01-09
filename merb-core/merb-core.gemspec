@@ -30,7 +30,7 @@ Gem::Specification.new do |gem|
   ] & `git ls-files -z`.split("\0")
 
     # Runtime dependencies
-    gem.add_dependency 'extlib',     '>= 0.9.13'
+    gem.add_dependency 'extlib',     '>= 0.9.16'
     gem.add_dependency 'erubis',     '>= 2.6.2'
     gem.add_dependency 'rake'
     gem.add_dependency 'rack'
