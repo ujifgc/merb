@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'merb-cache/stores/fundamental/abstract_store_spec'
 
 describe Merb::Cache::FileStore do
   it_should_behave_like 'all stores'
@@ -15,13 +14,13 @@ describe Merb::Cache::FileStore do
   describe "#writable?" do
     describe "when conditions hash is empty" do
       it "returns true" do
-        @store.writable?('foo').should be_true
+        @store.writable?('foo').should be_truthy
       end
     end
 
     describe "when given expire_in option" do
       it "returns false" do
-        @store.writable?('foo', {}, :expire_in => 10).should be_false
+        @store.writable?('foo', {}, :expire_in => 10).should be_falsey
       end
     end
   end
@@ -111,7 +110,7 @@ describe Merb::Cache::FileStore do
         end
         
         @store.fetch(key, &proc)
-        called.should be_false
+        called.should be_falsey
       end
     end
 
@@ -124,7 +123,7 @@ describe Merb::Cache::FileStore do
         FileUtils.rm(@store.pathify(key)) if File.exists?(@store.pathify(key))
         
         @store.fetch(key, &proc)
-        called.should be_true
+        called.should be_truthy
       end      
     end
   end
@@ -142,9 +141,9 @@ describe Merb::Cache::FileStore do
           file << body
         end
 
-        File.exists?(@store.pathify(key)).should be_true
+        File.exists?(@store.pathify(key)).should be_truthy
         @store.delete(key)
-        File.exists?(@store.pathify(key)).should be_false
+        File.exists?(@store.pathify(key)).should be_falsey
       end
     end
     

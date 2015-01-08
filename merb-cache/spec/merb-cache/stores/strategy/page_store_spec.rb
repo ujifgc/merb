@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'merb-cache/stores/strategy/abstract_strategy_store_spec'
 
 describe Merb::Cache::PageStore do
   it_should_behave_like 'all strategy stores'

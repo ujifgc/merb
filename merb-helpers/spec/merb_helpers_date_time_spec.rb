@@ -4,7 +4,7 @@ describe "relative_date" do
   include Merb::Helpers::DateAndTime
 
   before :each do
-    Time.stub!(:now).and_return(Time.utc(2007, 6, 1, 11))
+    Time.stub(:now).and_return(Time.utc(2007, 6, 1, 11))
     @controller = RelativeDateSpecs.new(Merb::Request.new({}))
   end
 
@@ -40,7 +40,7 @@ describe "relative_date_span" do
   include Merb::Helpers::DateAndTime
 
   before :each do
-    Time.stub!(:now).and_return(Time.utc(2007, 6, 1, 11))
+    Time.stub(:now).and_return(Time.utc(2007, 6, 1, 11))
     @controller = RelativeDateSpanSpecs.new(Merb::Request.new({}))
   end
 
@@ -84,7 +84,7 @@ describe "relative_time_span" do
   include Merb::Helpers::DateAndTime
 
   before :each do
-    Time.stub!(:now).and_return(Time.utc(2007, 6, 1, 11))
+    Time.stub(:now).and_return(Time.utc(2007, 6, 1, 11))
   end
 
   # Time, Single Date

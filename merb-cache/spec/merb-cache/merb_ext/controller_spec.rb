@@ -131,9 +131,9 @@ describe Merb::Cache::CacheMixin do
     end
     
     before(:each) do
-      @mock_store = mock("store").as_null_object
-      Merb::Cache.stub!(:[]).and_return(@mock_store)
-      @mock_store.stub!(:read).and_return("CACHED")
+      @mock_store = double("store").as_null_object
+      Merb::Cache.stub(:[]).and_return(@mock_store)
+      @mock_store.stub(:read).and_return("CACHED")
     end
         
     it "should try to hit the cache if force_cache is not set" do
@@ -207,7 +207,7 @@ describe Merb::Cache::CacheMixin do
         eager_cache(:index) {|params| params.merge(:foo => :bar)}
       end
 
-      lambda { dispatch_to(EagerCacher, :index) }.should_not raise_error(ArgumentError)
+      lambda { dispatch_to(EagerCacher, :index) }.should_not raise_error
     end
 
     it "should allow the block to return a Merb::Request object" do
@@ -215,7 +215,7 @@ describe Merb::Cache::CacheMixin do
         eager_cache(:index) {|params| build_request('/')}
       end
 
-      lambda { dispatch_to(EagerCacher, :index) }.should_not raise_error(ArgumentError)
+      lambda { dispatch_to(EagerCacher, :index) }.should_not raise_error
     end
 
     it "should allow the block to return a Merb::Controller object" do
@@ -223,7 +223,7 @@ describe Merb::Cache::CacheMixin do
         eager_cache(:index) {|params, env| EagerCacher.new(env)}
       end
 
-      lambda { dispatch_to(EagerCacher, :index) }.should_not raise_error(ArgumentError)
+      lambda { dispatch_to(EagerCacher, :index) }.should_not raise_error
     end
   end
 
@@ -289,7 +289,7 @@ describe Merb::Cache::CacheMixin do
     it "should not run the stop action if the _set_skip_cache is set to true" do
       new_controller = MyController.new(fake_request)
       dispatch_and_wait(MyController, :start) do |c|
-        MyController.stub!(:new).and_return(new_controller)
+        MyController.stub(:new).and_return(new_controller)
         c.skip_cache!
         new_controller.should_not_receive(:stop)
         HasRun.has_run = true        
@@ -310,7 +310,7 @@ describe Merb::Cache::CacheMixin do
     it "should pass the template argument to the partial method" do
       new_controller = MyController.new(fake_request)
       new_controller.should_receive(:partial).with(:foo, {})
-      new_controller.stub!(:concat)
+      new_controller.stub(:concat)
 
       new_controller.fetch_partial(:foo)
     end
@@ -318,17 +318,17 @@ describe Merb::Cache::CacheMixin do
     it "should pass the options to the partial method " do
       new_controller = MyController.new(fake_request)
       new_controller.should_receive(:partial).with(:foo, :bar => :baz)
-      new_controller.stub!(:concat)
+      new_controller.stub(:concat)
 
       new_controller.fetch_partial(:foo, :bar => :baz)
     end
 
     it "should contain only alpha-numeric characters in the template key" do
       new_controller = MyController.new(fake_request)
-      new_controller.stub!(:partial)
-      new_controller.stub!(:concat)
+      new_controller.stub(:partial)
+      new_controller.stub(:concat)
 
-      @dummy.should_receive(:fetch).and_return do |template_key, opts, conditions, block|
+      @dummy.should_receive(:fetch) do |template_key, opts, conditions, block|
         template_key.should =~ /^(?:[a-zA-Z0-9_\/\.-])+/
       end
 
@@ -339,9 +339,9 @@ describe Merb::Cache::CacheMixin do
   describe "#fetch_fragment" do
     it "should include the filename that defines the fragment proc in the fragment key" do
       new_controller = MyController.new(fake_request)
-      new_controller.stub!(:concat)
+      new_controller.stub(:concat)
 
-      @dummy.should_receive(:fetch).and_return do |fragment_key, opts, conditions, block|
+      @dummy.should_receive(:fetch) do |fragment_key, opts, conditions, block|
         fragment_key.should include(__FILE__)
       end
 
@@ -350,9 +350,9 @@ describe Merb::Cache::CacheMixin do
 
     it "should include the line number that defines the fragment proc in the fragment key" do
       new_controller = MyController.new(fake_request)
-      new_controller.stub!(:concat)
+      new_controller.stub(:concat)
 
-      @dummy.should_receive(:fetch).and_return do |fragment_key, opts, conditions, block|
+      @dummy.should_receive(:fetch) do |fragment_key, opts, conditions, block|
         fragment_key.should =~ %r{[\d+]}
       end
 

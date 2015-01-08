@@ -50,10 +50,10 @@ describe "error_messages_for" do
     @sq_obj = Object.new
     @dm_errors = [["foo", "bar"],["baz","bat"]]
     @sq_errors = {:foo => ["bar"],:baz => ["bat"]}
-    @dm_obj.stub!(:errors).and_return(@dm_errors)
-    @dm_obj.stub!(:new_record?).and_return(false)
-    @sq_obj.stub!(:errors).and_return(@sq_errors)
-    @sq_obj.stub!(:new_record?).and_return(false)
+    @dm_obj.stub(:errors).and_return(@dm_errors)
+    @dm_obj.stub(:new_record?).and_return(false)
+    @sq_obj.stub(:errors).and_return(@sq_errors)
+    @sq_obj.stub(:new_record?).and_return(false)
   end
 
   it "should build default error messages for AR-like models" do
@@ -111,10 +111,9 @@ describe "form" do
 
     it "should not explode when #form is called" do
       #TODO: what is the expected behaviour exactly?
-      pending do
-        r = @c.render :resourceful_form
-        r.should =~ /action="fake_model2\/#{@obj.id}"/
-      end
+      pending
+      r = @c.render :resourceful_form
+      r.should =~ /action="fake_model2\/#{@obj.id}"/
     end
   end
 
@@ -316,14 +315,14 @@ describe "bound_text_field" do
   end
 
   it "should errorify a field for a model with errors" do
-    model = mock("model")
-    model.stub!(:new_record?).and_return(true)
-    model.stub!(:class).and_return("MyClass")
-    model.stub!(:foo).and_return("FOO")
-    errors = mock("errors")
+    model = double("model")
+    model.stub(:new_record?).and_return(true)
+    model.stub(:class).and_return("MyClass")
+    model.stub(:foo).and_return("FOO")
+    errors = double("errors")
     errors.should_receive(:[]).with(:foo).and_return(true)
 
-    model.stub!(:errors).and_return(errors)
+    model.stub(:errors).and_return(errors)
     @c.instance_variable_set(:@obj, model)
     r = @c.render :basic
     r.should have_selector("input[class='error text']")
@@ -364,14 +363,14 @@ describe "bound_radio_button" do
   end
 
   it "should errorify a field for a model with errors" do
-    model = mock("model")
-    model.stub!(:new_record?).and_return(true)
-    model.stub!(:class).and_return("MyClass")
-    model.stub!(:foo).and_return("FOO")
-    errors = mock("errors")
+    model = double("model")
+    model.stub(:new_record?).and_return(true)
+    model.stub(:class).and_return("MyClass")
+    model.stub(:foo).and_return("FOO")
+    errors = double("errors")
     errors.should_receive(:[]).with(:foo).and_return(true)
 
-    model.stub!(:errors).and_return(errors)
+    model.stub(:errors).and_return(errors)
     @c.instance_variable_set(:@obj, model)
     r = @c.render :basic
     r.should have_selector("input[class='error radio']")
@@ -435,14 +434,14 @@ describe "bound_password_field" do
   end
 
   it "should errorify a field for a model with errors" do
-    model = mock("model")
-    model.stub!(:new_record?).and_return(true)
-    model.stub!(:class).and_return("MyClass")
-    model.stub!(:foo).and_return("FOO")
-    errors = mock("errors")
+    model = double("model")
+    model.stub(:new_record?).and_return(true)
+    model.stub(:class).and_return("MyClass")
+    model.stub(:foo).and_return("FOO")
+    errors = double("errors")
     errors.should_receive(:[]).with(:foo).and_return(true)
 
-    model.stub!(:errors).and_return(errors)
+    model.stub(:errors).and_return(errors)
 
     @c.instance_variable_set(:@obj, model)
     r = @c.render :basic
@@ -598,16 +597,16 @@ describe "bound_check_box" do
   end
 
   it "should errorify a field for a model with errors" do
-    model = mock("model")
-    model.stub!(:new_record?).and_return(true)
-    model.stub!(:class).and_return("MyClass")
-    model.stub!(:baz).and_return("BAZ")
-    model.stub!(:bat).and_return("BAT")
-    errors = mock("errors")
+    model = double("model")
+    model.stub(:new_record?).and_return(true)
+    model.stub(:class).and_return("MyClass")
+    model.stub(:baz).and_return("BAZ")
+    model.stub(:bat).and_return("BAT")
+    errors = double("errors")
     errors.should_receive(:[]).with(:baz).and_return(true)
     errors.should_receive(:[]).with(:bat).and_return(true)
 
-    model.stub!(:errors).and_return(errors)
+    model.stub(:errors).and_return(errors)
 
     @c.instance_variable_set(:@obj, model)
     r = @c.render :basic
@@ -691,14 +690,14 @@ describe "bound_hidden_field" do
   end
 
   it "should not errorify a field for a model with errors" do
-    model = mock("model")
-    model.stub!(:new_record?).and_return(true)
-    model.stub!(:class).and_return("MyClass")
-    model.stub!(:foo).and_return("FOO")
-    errors = mock("errors")
+    model = double("model")
+    model.stub(:new_record?).and_return(true)
+    model.stub(:class).and_return("MyClass")
+    model.stub(:foo).and_return("FOO")
+    errors = double("errors")
     errors.should_receive(:[]).with(:foo).and_return(true)
 
-    model.stub!(:errors).and_return(errors)
+    model.stub(:errors).and_return(errors)
 
     @c.instance_variable_set(:@model, model)
     r = @c.render :hidden_error

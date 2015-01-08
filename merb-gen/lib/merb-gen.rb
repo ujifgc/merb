@@ -1,7 +1,13 @@
 require 'merb-core'
 
 require 'digest/sha1'
+
+Kernel.send :alias_method, :old_instance_exec, :instance_exec
 require 'templater'
+
+if RUBY_VERSION >= '1.9.1'
+  Kernel.send :alias_method, :instance_exec, :old_instance_exec
+end
 
 require 'merb-gen/templater'
 require 'merb-gen/generator'
@@ -28,6 +34,14 @@ require File.expand_path('../generators/resource',            __FILE__)
 require File.expand_path('../generators/layout',              __FILE__)
 require File.expand_path('../generators/passenger',           __FILE__)
 require File.expand_path('../generators/fcgi',                __FILE__)
+
+unless Gem.respond_to?(:cache)
+  module Templater::Discovery
+    def self.find_latest_gem_paths
+      Gem.loaded_specs.values.map(&:full_gem_path)
+    end
+  end
+end
 
 Templater::Discovery.discover!('merb-gen')
 

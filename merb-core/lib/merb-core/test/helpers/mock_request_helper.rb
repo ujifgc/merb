@@ -108,7 +108,10 @@ module Merb
       # @deprecated Deprecation note questionable.
       def dispatch_to(controller_klass, action, params = {}, env = {}, &blk)
         params = merge_controller_and_action(controller_klass, action, params)
-        dispatch_request(build_request(params, env), controller_klass, action.to_s, &blk)
+        puts 'PARAMS: ' + params.inspect if $l
+        req = build_request(params, env)
+        puts 'REQUEST: ' + req.inspect if $l
+        dispatch_request(req, controller_klass, action.to_s, &blk)
       end
 
       # Keep track of cookie values in CookieJar within the context of the

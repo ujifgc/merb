@@ -39,12 +39,12 @@ describe Merb::Cache do
     it "should return true if a repository is setup" do
       Merb::Cache.register(DummyStore)
       Merb::Cache.register(:store_that_exists, DummyStore)
-      Merb::Cache.exists?(:default).should be_true
-      Merb::Cache.exists?(:store_that_exists).should be_true
+      Merb::Cache.exists?(:default).should be_truthy
+      Merb::Cache.exists?(:store_that_exists).should be_truthy
     end
     
     it "should return false if a repository is not setup" do
-      Merb::Cache.exists?(:not_here).should be_false
+      Merb::Cache.exists?(:not_here).should be_falsey
     end
   end
 

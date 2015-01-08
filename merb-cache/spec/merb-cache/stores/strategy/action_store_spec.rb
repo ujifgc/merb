@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'merb-cache/stores/strategy/abstract_strategy_store_spec'
 
 describe Merb::Cache::ActionStore do
   it_should_behave_like 'all strategy stores'
@@ -18,23 +17,23 @@ describe Merb::Cache::ActionStore do
 
     class TestController < Merb::Controller; def action; end; end
     @controller = TestController.new(fake_request)
-    @controller.stub!(:action_name).and_return :action
-    @controller.stub!(:body).and_return 'body'
+    @controller.stub(:action_name).and_return :action
+    @controller.stub(:body).and_return 'body'
   end
 
   describe "#writable?" do
     it "should be false if the key argument is not an instance of a controller" do
-      @store.writable?(:foo).should be_false
+      @store.writable?(:foo).should be_falsey
     end
 
     it "should be false if the fundamental store cannot write the normalized key" do
       @store.stores.first.should_receive(:writable?).and_return false
 
-      @store.writable?(@controller).should be_false
+      @store.writable?(@controller).should be_falsey
     end
 
     it "should be true if the key is a controller instance and the fundamental store is writable" do
-      @store.writable?(@controller).should be_true
+      @store.writable?(@controller).should be_truthy
     end
   end
 

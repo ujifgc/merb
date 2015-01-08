@@ -4,6 +4,7 @@ require File.expand_path("../merb/lib/merb/stack_info.rb", __FILE__)
 require 'fileutils'
 
 ROOT = File.dirname(__FILE__)
+RUBY = 'ruby'
 
 # Global options for YARD.
 #

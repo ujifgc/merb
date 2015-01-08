@@ -76,7 +76,7 @@ module Erubis
   #   The binding to use when evaluating the ERB tags.
   #
   # @api private
-  def self.load_yaml_file(file, binding = binding)
-    YAML::load(Erubis::MEruby.new(IO.read(File.expand_path(file))).result(binding))
+  def self.load_yaml_file(file, _binding = binding)
+    YAML::load(Erubis::MEruby.new(IO.read(File.expand_path(file))).result(_binding))
   end
 end

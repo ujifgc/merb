@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'merb-cache/stores/fundamental/abstract_store_spec'
 
 begin
   require 'memcached'
@@ -7,7 +6,7 @@ begin
   namespace = 'memcached_test_namespace'
   
   options = {      
-    :namespace    => @namespace,
+    :prefix_key   => @namespace,
     :hash         => :default,
     :distribution => :modula
   }
@@ -54,7 +53,7 @@ else
     describe "#writable?" do
       describe "when conditions hash is empty" do
         it "returns true" do
-          @store.writable?('foo').should be_true
+          @store.writable?('foo').should be_truthy
         end
       end
     end
@@ -128,7 +127,7 @@ else
            @memcached.set(key, data)
            @store.fetch(key, &proc)
 
-           called.should be_false
+           called.should be_falsey
         end      
       end
     
@@ -141,7 +140,7 @@ else
            @memcached.delete(key) rescue nil
            @store.fetch(key, &proc)
          
-           called.should be_true
+           called.should be_truthy
         end      
       end    
     end

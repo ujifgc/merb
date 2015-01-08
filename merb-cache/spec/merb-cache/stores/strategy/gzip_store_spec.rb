@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'merb-cache/stores/strategy/abstract_strategy_store_spec'
 
 describe Merb::Cache::GzipStore do
   it_should_behave_like 'all strategy stores'
@@ -11,15 +10,15 @@ describe Merb::Cache::GzipStore do
 
   describe "#writable?" do
     it "should be true whatever the key" do
-      @store.writable?(:foo).should be_true
-      @store.writable?('foo').should be_true
-      @store.writable?(123).should be_true
+      @store.writable?(:foo).should be_truthy
+      @store.writable?('foo').should be_truthy
+      @store.writable?(123).should be_truthy
     end
 
     it "should be false if none of the context caches are writable" do
       @store.stores.each {|s| s.should_receive(:writable?).and_return false}
 
-      @store.writable?(:foo).should be_false
+      @store.writable?(:foo).should be_falsey
     end
   end
 
@@ -41,13 +40,13 @@ describe Merb::Cache::GzipStore do
     it "should pass the hashed key to the context store" do
       @store.stores.first.should_receive(:write).with(:foo,  @store.compress('body'), {}, {}).and_return true
 
-      @store.write(:foo, 'body').should be_true
+      @store.write(:foo, 'body').should be_truthy
     end
 
     it "should use the parameters to create the hashed key" do
       @store.stores.first.should_receive(:write).with(:foo, @store.compress('body'), {:bar => :baz}, {}).and_return true
 
-      @store.write(:foo, 'body', :bar => :baz).should be_true
+      @store.write(:foo, 'body', :bar => :baz).should be_truthy
     end
   end
 

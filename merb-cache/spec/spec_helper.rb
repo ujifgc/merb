@@ -1,6 +1,8 @@
 require "rubygems"
 require 'stringio'
 
+Dir["./spec/support/**/*.rb"].sort.each {|f| require f}
+
 # Use current merb-core sources if running from a typical dev checkout.
 lib = File.expand_path('../../../merb-core/lib', __FILE__)
 $LOAD_PATH.unshift(lib) if File.directory?(lib)

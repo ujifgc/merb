@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'merb-cache/stores/strategy/abstract_strategy_store_spec'
 
 describe Merb::Cache::SHA1Store do
   it_should_behave_like 'all strategy stores'
@@ -11,15 +10,15 @@ describe Merb::Cache::SHA1Store do
 
   describe "#writable?" do
     it "should be true if the key is a string, symbol, or number" do
-      @store.writable?(:foo).should be_true
-      @store.writable?('foo').should be_true
-      @store.writable?(123).should be_true
+      @store.writable?(:foo).should be_truthy
+      @store.writable?('foo').should be_truthy
+      @store.writable?(123).should be_truthy
     end
 
     it "should be false if none of the context caches are writable" do
       @store.stores.each {|s| s.should_receive(:writable?).and_return false}
 
-      @store.writable?(:foo).should be_false
+      @store.writable?(:foo).should be_falsey
     end
   end
 
@@ -41,19 +40,19 @@ describe Merb::Cache::SHA1Store do
     it "should pass the hashed key to the context store" do
       @store.stores.first.should_receive(:write).with(@store.digest(:foo), 'body', {}, {}).and_return true
 
-      @store.write(:foo, 'body').should be_true
+      @store.write(:foo, 'body').should be_truthy
     end
 
     it "should use the parameters to create the hashed key" do
       @store.stores.first.should_receive(:write).with(@store.digest(:foo, :bar => :baz), 'body', {}, {}).and_return true
 
-      @store.write(:foo, 'body', :bar => :baz).should be_true
+      @store.write(:foo, 'body', :bar => :baz).should be_truthy
     end
   end
 
   describe "#fetch" do
     it "should return nil if the arguments are not storable" do
-      @store.fetch(mock(:request)) {'body'}.should be_nil
+      @store.fetch(double(:request)) {'body'}.should be_nil
     end
 
     

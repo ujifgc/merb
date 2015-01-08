@@ -101,7 +101,7 @@ module Merb::Cache
     #
     # @see http://blog.evanweaver.com/files/doc/fauna/memcached/classes/Memcached.html memcached gem documentation
     def connect(config = {})
-      @memcached = ::Memcached.new(@servers, config.only(:buffer_requests, :no_block, :support_cas).merge(:namespace => @namespace))
+      @memcached = ::Memcached.new(@servers, config.only(:buffer_requests, :no_block, :support_cas).merge(:prefix_key => @namespace))
     end
 
     # Returns cache key calculated from base key and SHA2 hex from

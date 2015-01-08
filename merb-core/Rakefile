@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'rake'
-require "rake/rdoctask"
+require "rdoc/task"
 require "rake/testtask"
 require "rspec/core/rake_task"
 require "fileutils"
@@ -11,7 +11,7 @@ require File.expand_path("../tools/annotation_extract", __FILE__)
 include FileUtils
 
 desc "Run the specs."
-task :default => :specs
+task :default => :spec
 
 task :merb => [:clean, :doc, :package]
 
@@ -69,6 +69,13 @@ RSpec::Core::RakeTask.new(:spec) do |t|
   t.pattern = "spec/**/*_spec.rb"
   t.rspec_opts = options
   t.fail_on_error = false
+end
+
+desc 'rspec'
+task :rspec do
+  Dir["spec/**/*_spec.rb"].each do |file|
+    puts `bundle exec rspec #{file} -c`
+  end  
 end
 
 ##############################################################################

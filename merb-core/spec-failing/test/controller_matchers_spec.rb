@@ -93,41 +93,41 @@ module Merb::Test::Rspec
       end
       
       it "should match a 301 'Moved Permanently' redirect code" do
-        BeRedirect.new.matches?(301).should be_true
+        BeRedirect.new.matches?(301).should be_truthy
       end
       
       it "should match a 302 'Found' redirect code" do
-        BeRedirect.new.matches?(302).should be_true
+        BeRedirect.new.matches?(302).should be_truthy
       end
       
       it "should match a 303 'See Other' redirect code" do
-        BeRedirect.new.matches?(303).should be_true
+        BeRedirect.new.matches?(303).should be_truthy
       end
       
       it "should match a 304 'Not Modified' redirect code" do
-        BeRedirect.new.matches?(304).should be_true
+        BeRedirect.new.matches?(304).should be_truthy
       end
       
       it "should match a 307 'Temporary Redirect' redirect code" do
-        BeRedirect.new.matches?(307).should be_true
+        BeRedirect.new.matches?(307).should be_truthy
       end
       
       it "should match a target with a valid redirect code" do
         @target.status = 301
         
-        BeRedirect.new.matches?(@target).should be_true
+        BeRedirect.new.matches?(@target).should be_truthy
       end
       
       it "should not match a target with an unused redirect code" do
         @target.status = 399
         
-        BeRedirect.new.matches?(@target).should_not be_true
+        BeRedirect.new.matches?(@target).should_not be_truthy
       end
       
       it "should not match a target with a non redirect code" do
         @target.status = 200
         
-        BeRedirect.new.matches?(@target).should_not be_true
+        BeRedirect.new.matches?(@target).should_not be_truthy
       end
       
       describe "#failure_message" do
@@ -398,21 +398,21 @@ module Merb::Test::Rspec
       end
 
       it 'should match for formats a controller class provides' do
-        Provide.new( :xml ).matches?( TestController ).should be_true
+        Provide.new( :xml ).matches?( TestController ).should be_truthy
       end
 
       it 'should match for formats a controller instance provides' do
         t = TestController.new( fake_request )
-        Provide.new( :xml ).matches?( t ).should be_true
+        Provide.new( :xml ).matches?( t ).should be_truthy
       end
 
       it 'should not match for formats a controller class does not provide' do
-        Provide.new( :yaml ).matches?( TestController ).should be_false
+        Provide.new( :yaml ).matches?( TestController ).should be_falsey
       end
 
       it 'should not match for formats a controller instance does not provide' do
         t = TestController.new( fake_request )
-        Provide.new( :yaml ).matches?( t ).should be_false
+        Provide.new( :yaml ).matches?( t ).should be_falsey
       end
     end
   end
